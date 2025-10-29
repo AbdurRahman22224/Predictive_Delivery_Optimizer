@@ -108,14 +108,9 @@ python src/modeling.py
 This will:
 - Train a CatBoost classifier for delay prediction (is_delayed)
 - Train a CatBoost regressor for delay days prediction
-- Run 50 trials for classification, 30 trials for regression
+- Run 50 trials for classification, 50 trials for regression
 - Log all experiments to MLflow (DagsHub)
 - Save best models to `models/`
-
-**Expected Performance:**
-- Classification F1-score: >0.75
-- Classification ROC-AUC: >0.80
-- Regression RMSE: <2 days
 
 ### 3. Launch Streamlit Dashboard
 
