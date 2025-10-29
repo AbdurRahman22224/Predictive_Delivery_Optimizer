@@ -95,6 +95,7 @@ Fully functional dashboard with 4 pages:
 **Model Performance Page:**
 - Displays best model metrics (Accuracy, Precision, Recall, F1, ROC-AUC)
 - Shows hyperparameters and model info
+- Feature Importance Analysis with interactive bar charts and sortable tables for both classifier and regressor
 - Ready for MLflow model loading from registry
 
 **Predictions Page:**
@@ -174,10 +175,10 @@ Interactive EDA notebook with:
    )
    ```
 
-5. **Update Streamlit App with SHAP:**
-   - Add SHAP summary plot to Model Performance page
-   - Implement per-instance SHAP explanations in Predictions page
-   - Add feature importance visualizations
+5. ~~**Update Streamlit App with SHAP:**~~ ✅ **Completed**
+   - ~~Add SHAP summary plot to Model Performance page~~ (SHAP removed per user request)
+   - ~~Implement per-instance SHAP explanations in Predictions page~~ (SHAP removed per user request)
+   - ✅ **Feature importance visualizations added** to Model Performance page with interactive bar charts and sortable tables
 
 ## Current File Structure
 
@@ -278,4 +279,3 @@ All core infrastructure is in place. The project is ready for:
 4. Full dashboard functionality with trained models
 
 The codebase is production-ready, well-documented, and follows best practices for ML project structure, data leakage prevention, and experiment tracking.
-

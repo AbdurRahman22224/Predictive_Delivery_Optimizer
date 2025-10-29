@@ -210,6 +210,113 @@ elif page == "Model Performance":
     except Exception as e:
         st.warning(f"Could not load regressor info: {e}")
     
+    # Feature Importance Section
+    st.divider()
+    st.subheader("📊 Feature Importance Analysis")
+    
+    try:
+        models = load_models()
+        if 'classifier' in models and 'preprocessor' in models:
+            classifier = models['classifier']
+            preprocessor = models['preprocessor']
+            
+            # Get feature importance from classifier
+            classifier_importance = classifier.get_feature_importance()
+            feature_names = preprocessor.get_feature_names_out()
+            
+            # Create DataFrame for classifier
+            classifier_importance_df = pd.DataFrame({
+                'Feature': feature_names,
+                'Importance': classifier_importance
+            }).sort_values('Importance', ascending=False).reset_index(drop=True)
+            classifier_importance_df['Rank'] = range(1, len(classifier_importance_df) + 1)
+            classifier_importance_df = classifier_importance_df[['Rank', 'Feature', 'Importance']]
+            
+            # Get feature importance from regressor if available
+            if 'regressor' in models:
+                regressor = models['regressor']
+                regressor_importance = regressor.get_feature_importance()
+                
+                regressor_importance_df = pd.DataFrame({
+                    'Feature': feature_names,
+                    'Importance': regressor_importance
+                }).sort_values('Importance', ascending=False).reset_index(drop=True)
+                regressor_importance_df['Rank'] = range(1, len(regressor_importance_df) + 1)
+                regressor_importance_df = regressor_importance_df[['Rank', 'Feature', 'Importance']]
+            
+            # Display tabs for Classifier and Regressor importance
+            tab1, tab2 = st.tabs(["📈 Classifier Importance", "📉 Regressor Importance"])
+            
+            with tab1:
+                st.markdown("**Top features that predict delivery delay (classification)**")
+                
+                # Top 10 features
+                top_n = st.slider("Show top N features", min_value=5, max_value=len(classifier_importance_df), value=10, key="classifier_top")
+                
+                # Display bar chart
+                top_df = classifier_importance_df.head(top_n)
+                fig = px.bar(
+                    top_df, 
+                    x='Importance', 
+                    y='Feature',
+                    orientation='h',
+                    title=f"Top {top_n} Most Important Features (Classifier)",
+                    labels={'Importance': 'Feature Importance', 'Feature': 'Feature Name'},
+                    color='Importance',
+                    color_continuous_scale='Tealgrn',
+                    text='Importance'
+                )
+                fig.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+                fig.update_layout(yaxis={'categoryorder': 'total ascending'}, height=max(400, top_n * 30))
+                st.plotly_chart(fig, use_container_width=True)
+                
+                # Display table
+                st.markdown("**Complete Feature Importance Table**")
+                classifier_importance_df['Importance'] = classifier_importance_df['Importance'].round(4)
+                st.dataframe(
+                    classifier_importance_df,
+                    use_container_width=True,
+                    hide_index=True
+                )
+            
+            with tab2:
+                if 'regressor' in models:
+                    st.markdown("**Top features that predict delay days (regression)**")
+                    
+                    # Top 10 features
+                    top_n_reg = st.slider("Show top N features", min_value=5, max_value=len(regressor_importance_df), value=10, key="regressor_top")
+                    
+                    # Display bar chart
+                    top_df_reg = regressor_importance_df.head(top_n_reg)
+                    fig_reg = px.bar(
+                        top_df_reg, 
+                        x='Importance', 
+                        y='Feature',
+                        orientation='h',
+                        title=f"Top {top_n_reg} Most Important Features (Regressor)",
+                        labels={'Importance': 'Feature Importance', 'Feature': 'Feature Name'},
+                        color='Importance',
+                        color_continuous_scale='YlOrBr',
+                        text='Importance'
+                    )
+                    fig_reg.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+                    fig_reg.update_layout(yaxis={'categoryorder': 'total ascending'}, height=max(400, top_n_reg * 30))
+                    st.plotly_chart(fig_reg, use_container_width=True)
+                    
+                    # Display table
+                    st.markdown("**Complete Feature Importance Table**")
+                    regressor_importance_df['Importance'] = regressor_importance_df['Importance'].round(4)
+                    st.dataframe(
+                        regressor_importance_df,
+                        use_container_width=True,
+                        hide_index=True
+                    )
+                else:
+                    st.info("Regressor model not available for feature importance analysis.")
+        else:
+            st.warning("Could not load models for feature importance analysis.")
+    except Exception as e:
+        st.error(f"Error extracting feature importance: {e}")
 
 elif page == "Predictions":
     st.header("🔮 Predictions")

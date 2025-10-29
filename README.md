@@ -64,8 +64,8 @@ The code is pre-configured to use DagsHub for MLflow tracking:
 ```python
 # In src/modeling.py
 dagshub.init(
-    repo_owner="AbdurRahman22224",
-    repo_name="Predictive_Delivery_Optimizer",
+    repo_owner="{repo_owner}",
+    repo_name="{repo_name}"
     mlflow=True
 )
 ```
@@ -125,7 +125,7 @@ streamlit run app.py
 
 The dashboard includes:
 - **Overview**: KPIs, filters, and exploratory visualizations
-- **Model Performance**: Metrics, ROC curve, confusion matrix, feature importance
+- **Model Performance**: Metrics, hyperparameters, feature importance analysis (interactive charts and tables for both classifier and regressor)
 - **Predictions**: Single order form and batch prediction
 - **Insights**: Carrier rankings, scenario analysis, actionable recommendations
 
@@ -180,10 +180,16 @@ View experiments at: https://dagshub.com/AbdurRahman22224/Predictive_Delivery_Op
 
 ## Model Explainability
 
-Feature importance is computed from the trained CatBoost models to explain predictions:
+Feature importance is extracted from the trained CatBoost models and displayed interactively in the Streamlit dashboard:
 
-- **Feature Importance**: Top features that drive delay predictions
-- **Business Insights**: Understanding which factors impact delivery delays most
+- **Feature Importance Analysis**: Available in the Model Performance page with:
+  - Interactive horizontal bar charts showing top N features (adjustable via slider)
+  - Sortable tables with Rank, Feature Name, and Importance scores
+  - Separate views for classifier (delay prediction) and regressor (delay days prediction)
+- **Business Insights**: Understanding which factors impact delivery delays most helps with:
+  - Carrier selection optimization
+  - Route planning decisions
+  - Priority allocation strategies
 
 
 ## Reproducibility

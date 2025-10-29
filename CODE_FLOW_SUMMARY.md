@@ -129,6 +129,12 @@ train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 ### Model Performance Page:
 - ✅ Displays classifier and regressor metrics
 - ✅ Shows hyperparameters in JSON format
+- ✅ Feature Importance Analysis:
+  - Extracts feature importance from both CatBoost models using `get_feature_importance()`
+  - Gets feature names from preprocessor using `get_feature_names_out()`
+  - Displays interactive horizontal bar charts for top N features (configurable via slider)
+  - Shows complete sortable tables with Rank, Feature Name, and Importance scores
+  - Separate tabs for classifier and regressor importance
 
 ### Predictions Page:
 - ✅ Single order prediction form
