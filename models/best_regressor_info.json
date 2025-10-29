@@ -1,0 +1,22 @@
+{
+  "model_type": "CatBoostRegressor",
+  "hyperparameters": {
+    "iterations": 705,
+    "depth": 5,
+    "learning_rate": 0.0692441110541772,
+    "l2_leaf_reg": 5.309095560732514,
+    "border_count": 137,
+    "bagging_temperature": 0.022901284799421495,
+    "random_strength": 4.922609321781346,
+    "grow_policy": "Lossguide",
+    "rsm": 0.4672410052737926,
+    "random_seed": 42,
+    "verbose": false
+  },
+  "metrics": {
+    "rmse": 1.5006365616924509,
+    "mae": 1.139744166857497,
+    "r2": 0.10480605951443178
+  },
+  "n_trials": 50
+}
