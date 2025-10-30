@@ -66,6 +66,7 @@
 - **Classifier:** F1=0.6667, Accuracy=70%, ROC-AUC=0.7589
 - **Regressor:** RMSE=1.50 days, MAE=1.14 days, R²=0.1048
 - Train/test split: 80/20 with stratification for balanced classes
+- Train/validation split: Training set further split into 80% training and 20% validation for Optuna hyperparameter tuning, preventing overfitting during optimization
 
 ### Evidence Files
 - `src/modeling.py`: train_classifier() function with Optuna
@@ -83,8 +84,12 @@
 **Exploratory Data Analysis:**
 - ✅ **Missing Value Analysis:** Weather_Impact has 106/150 missing values (identified in `src/data_prep.py`)
 - ✅ **Class Balance Analysis:** 80 on-time orders, 70 delayed orders (46.67% delay rate)
-- ✅ **Correlation Heatmap:** Feature relationships visualized in Streamlit Overview page
-- ✅ **Top 10 Carriers Analysis:** Count and delay rate comparisons (`notebooks/data_prep.ipynb` cell 12)
+- ✅ **Delay Rate by Carrier (Bar Chart):** Visualizes carrier performance comparison with delay percentages, identifies best/worst performing carriers for selection decisions
+- ✅ **Distance vs Delivery Cost (Scatter Plot):** Analyzes cost-distance relationships with color-coding by delay status, identifies expensive routes and delay patterns
+- ✅ **Order Priority Distribution (Pie/Donut Chart):** Displays service level mix (Economy, Standard, Express) to understand customer priority distribution
+- ✅ **Delay Rate by Product Category (Horizontal Bar Chart):** Shows delay rates for each product category sorted by delay rate, identifies problematic categories for focused improvement efforts
+- ✅ **Feature Correlation Heatmap:** Visualizes relationships between numeric features, identifies collinearity and important feature pairs
+- ✅ **Top 10 Carriers Analysis:** Count and delay rate comparisons in EDA notebook (`notebooks/data_prep.ipynb`)
 
 **Feature Engineering:**
 - ✅ Created 4 derived features: cost_per_promised_day, promised_days_bucket, order_value_bucket, distance_bucket
@@ -114,7 +119,7 @@
 - ✅ **Color-Coded Insights:** Visual indicators for delay vs on-time
 
 **Model Performance Page:**
-- ✅ **Metrics Display:** 5-column layout for classifier metrics
+- ✅ **Classifier Metrics Display:** 5-column layout showing Accuracy, Precision, Recall, F1-Score, and ROC-AUC
 - ✅ **JSON Hyperparameters:** Expandable model configuration display
 - ✅ **Regressor Metrics:** RMSE, MAE, R² displayed
 - ✅ **Feature Importance Analysis:** Interactive bar charts and sortable tables showing top N features for both classifier and regressor with adjustable slider
@@ -265,34 +270,6 @@ streamlit run app.py
 
 ---
 
-## Code Structure
-
-```
-OFI/
-├── data/                      # Raw datasets
-├── processed/                 # Merged and engineered data, preprocessor
-│   ├── merged.csv
-│   ├── features.csv
-│   └── preprocessor.joblib
-├── models/                    # Trained models and metadata
-│   ├── best_catboost_classifier.cbm
-│   ├── best_catboost_regressor.cbm
-│   ├── best_classifier_info.json
-│   └── best_regressor_info.json
-├── src/                       # Source code
-│   ├── data_prep.py
-│   ├── features.py
-│   ├── modeling.py
-│   └── utils.py
-├── notebooks/                 # Experiments & EDA
-│   └── Predictive_Delivery_Optimizer.ipynb
-├── app.py                     # Streamlit dashboard
-├── requirements.txt
-└── CODE_FLOW_SUMMARY.md
-```
-
----
-
 ## Key Technical Decisions
 
 - Model selection was driven by experiments logged to MLflow; multiple models and feature sets were evaluated in the notebook `notebooks/Predictive_Delivery_Optimizer.ipynb` to identify the best-performing approach for delay prediction.
@@ -334,12 +311,6 @@ OFI/
 - **Cost Efficiency:** Optimize routes based on distance-cost patterns
 - **Product Category Insights:** Electronics, Fashion, Industrial show different delay patterns
 
-### Cost Savings Estimate
-- Current delay rate: 46.67%
-- Target with model guidance: 20% (26.67% reduction)
-- Monthly orders: 150 → **40 fewer delays**
-- Avg cost per delivery: INR 500 → **INR 20,000 saved/month**
-
 ### Strategic Recommendations
 1. Avoid Express orders with Heavy_Rain weather predictions
 2. Allocate Express orders to top-performing carriers only
@@ -356,17 +327,19 @@ OFI/
 
 ---
 
-## Competition Submission Checklist
+## Requirements
 
-✅ All source code in `src/` directory  
-✅ Trained models in `models/` directory  
-✅ Jupyter notebooks in `notebooks/` for EDA  
-✅ Complete Streamlit app (`app.py`)  
-✅ Requirements file (`requirements.txt`)  
-✅ README with setup instructions  
-✅ MLflow experiment tracking on DagsHub  
-✅ 5+ visualizations in Streamlit dashboard  
-✅ Documentation (README.md, IMPLEMENTATION_SUMMARY.md, CODE_FLOW_SUMMARY.md)  
-
-**Project Status:** Production-ready prototype ✅
-
+```
+pandas
+numpy
+scikit-learn
+catboost
+optuna
+mlflow
+dagshub
+plotly
+streamlit
+joblib
+seaborn
+matplotlib
+```
