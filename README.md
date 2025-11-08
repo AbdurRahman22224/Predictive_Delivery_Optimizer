@@ -9,6 +9,10 @@ This project builds predictive models to forecast delivery delays by analyzing o
 - **Classification Model**: Predicts whether a delivery will be delayed (binary: delayed/on-time)
 - **Regression Model**: Predicts the number of delay days
 
+## 🚀 Live Demo
+
+**Deployed Application**: [Link](https://predictive-delivery-optimizer-abdur.streamlit.app/)
+
 ## Features
 
 - ✅ Data preprocessing and feature engineering (no data leakage)
