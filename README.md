@@ -11,7 +11,7 @@ This project builds predictive models to forecast delivery delays by analyzing o
 
 ## 🚀 Live Demo
 
-**Deployed Application**: [Link](https://predictive-delivery-optimizer-abdur.streamlit.app/)
+**Deployed Application**: [Link](https://predictive-delivery-optimizer-abdur-rahman.streamlit.app/)
 
 ## Features
 
